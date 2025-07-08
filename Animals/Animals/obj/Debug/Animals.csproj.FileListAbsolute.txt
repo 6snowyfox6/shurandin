@@ -1,0 +1,13 @@
+C:\Users\Artur\shurandin\Animals\Animals\bin\Debug\Animals.exe.config
+C:\Users\Artur\shurandin\Animals\Animals\bin\Debug\Animals.exe
+C:\Users\Artur\shurandin\Animals\Animals\bin\Debug\Animals.pdb
+C:\Users\Artur\shurandin\Animals\Animals\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Artur\shurandin\Animals\Animals\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Artur\shurandin\Animals\Animals\obj\Debug\Animals.csproj.AssemblyReference.cache
+C:\Users\Artur\shurandin\Animals\Animals\obj\Debug\Animals.Form1.resources
+C:\Users\Artur\shurandin\Animals\Animals\obj\Debug\Animals.Properties.Resources.resources
+C:\Users\Artur\shurandin\Animals\Animals\obj\Debug\Animals.csproj.GenerateResource.cache
+C:\Users\Artur\shurandin\Animals\Animals\obj\Debug\Animals.csproj.CoreCompileInputs.cache
+C:\Users\Artur\shurandin\Animals\Animals\obj\Debug\Animals.csproj.Up2Date
+C:\Users\Artur\shurandin\Animals\Animals\obj\Debug\Animals.exe
+C:\Users\Artur\shurandin\Animals\Animals\obj\Debug\Animals.pdb

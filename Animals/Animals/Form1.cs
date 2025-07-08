@@ -4,9 +4,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace Animals
 {
@@ -15,6 +17,44 @@ namespace Animals
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+            string input = textBox1.Text;
+            string url = $"https://eol.org/api/search/1.0.json?q={input.ToLower()}&page=1&images_per_page=1";
+            using (HttpClient httpClient = new HttpClient())
+            {
+                try
+                {
+                    HttpResponseMessage response = httpClient.GetAsync(url).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string json = response.Content.ReadAsStringAsync().Result;
+                        Animals myDeserializedClass = JsonConvert.DeserializeObject<Animals>(json);
+
+                        if (myDeserializedClass.totalResults != 0)
+                        {
+                            foreach (Animal result in myDeserializedClass.results)
+                            {
+                                listBox1.Items.Add(result.title);
+                            }
+
+                        }
+                        else listBox1.Items.Add("Ничего не нашел(");
+
+                    }
+                    else
+                    {
+                        MessageBox.Show(response.StatusCode.ToString());
+                    }
+                }
+                catch (HttpRequestException eg)
+                {
+                    MessageBox.Show(eg.ToString());
+                }
+            }
         }
     }
 }
