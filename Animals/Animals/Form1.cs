@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,6 +58,41 @@ namespace Animals
             }
         }
 
+        private void LoadImageFromUrl(string imageUrl)
+        {
+            try
+            {
+                // Загружаем изображение из интернета
+                var request = WebRequest.Create(imageUrl);
+                using (var response = request.GetResponse())
+                using (var stream = response.GetResponseStream())
+                {
+                    Image downloadedImage = Image.FromStream(stream);
+
+                    // Устанавливаем режим отображения
+                    pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+
+                    // Присваиваем изображение PictureBox
+                    pictureBox1.Image = downloadedImage;
+
+                    // Автоматически изменяем размер PictureBox под изображение
+                    // с сохранением пропорций или по другим правилам
+                    AdjustPictureBoxSize(downloadedImage);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки изображения: {ex.Message}");
+            }
+        }
+
+        private void AdjustPictureBoxSize(Image image)
+        {
+            // Устанавливаем точный размер PictureBox под изображение
+            pictureBox1.Width = image.Width;
+            pictureBox1.Height = image.Height;
+        }
+
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -74,7 +110,8 @@ namespace Animals
                         {
                             string json = response.Content.ReadAsStringAsync().Result;
                             Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(json);
-                            pictureBox1.Load(myDeserializedClass.results[0].default_photo.medium_url);
+                            LoadImageFromUrl(myDeserializedClass.results[0].default_photo.medium_url);
+                            //pictureBox1.Load(myDeserializedClass.results[0].default_photo.medium_url);
                         }
                         else
                         {
@@ -94,4 +131,6 @@ namespace Animals
             }
         }
     }
+
+
 }
