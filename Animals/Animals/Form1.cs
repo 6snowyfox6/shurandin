@@ -56,5 +56,42 @@ namespace Animals
                 }
             }
         }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                label1.Text = "";
+                string SelectedAnimal = listBox1.Items[listBox1.SelectedIndex].ToString();
+                string url = $"https://api.inaturalist.org/v1/taxa?q={SelectedAnimal.Replace(" ", "%20")}";
+                string urlname = $"https://eol.org/api/search/1.0.json?q={SelectedAnimal.Replace(" ", "%20")}&page=1&locale=ru";
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    try
+                    {
+                        HttpResponseMessage response = httpClient.GetAsync(url).Result;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string json = response.Content.ReadAsStringAsync().Result;
+                            Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(json);
+                            pictureBox1.Load(myDeserializedClass.results[0].default_photo.medium_url);
+                        }
+                        else
+                        {
+                            MessageBox.Show(response.StatusCode.ToString());
+                        }
+                    }
+                    catch (HttpRequestException eg)
+                    {
+                        MessageBox.Show(eg.ToString());
+                    }
+                }
+            }
+            catch
+            {
+                label1.Text = "Фото не найдено";
+                pictureBox1.Image = null;
+            }
+        }
     }
 }
